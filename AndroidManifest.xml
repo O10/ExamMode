@@ -2,10 +2,19 @@
     package="exammode.exammodev1"
     android:versionCode="1"
     android:versionName="1.0" >
+    
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
+    
+        <permission android:name="exam.mode.enable.permission" android:label="my_permission" android:protectionLevel="normal"></permission>
+        
+        
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    
+    
+
 
     <application
         android:allowBackup="true"
@@ -21,6 +30,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <receiver 
+            android:name="exammode.exammodev1.EMRequestReceiver"
+            android:permission="exam.mode.enable.permission">
+             
+            <intent-filter >
+                <action android:name="Action.Request.Exam.Mode" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
+        </receiver>
+        
+        <receiver android:name=".EmodeAppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+               android:resource="@xml/emode_appwidget_info" />
+        </receiver>
     </application>
 
 </manifest>

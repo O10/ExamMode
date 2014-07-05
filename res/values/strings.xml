@@ -4,4 +4,12 @@
 
     <string name="soundswitch">Disable Sound</string>
 
+    <string name="exttimeout">Extend screen timeout</string>
+
+    <string name="timeoutstr">Timeout (min)</string>
+
+    <string name="startemstr">Start Exam Mode</string>
+
+    <string name="stopemstr">Stop Exam Mode</string>
+
 </resources>
