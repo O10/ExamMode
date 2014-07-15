@@ -70,7 +70,6 @@ public class ExamModeActivity extends Activity {
                 Intent intent = new Intent(INTENT_ACTION);
                 intent.putExtra("start", true);
                 sendBroadcast(intent);
-                stopEMB.setEnabled(true);
             }
         });
 
@@ -81,7 +80,6 @@ public class ExamModeActivity extends Activity {
                 Intent intent = new Intent(INTENT_ACTION);
                 intent.putExtra("start", false);
                 sendBroadcast(intent);
-                stopEMB.setEnabled(false);
 
             }
         });

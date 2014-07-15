@@ -1,13 +1,16 @@
 
 package exammode.exammodev1;
 
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 /**
  * @author Aleksander Wojcik aleksander.k.wojcik@gmail.com
@@ -17,12 +20,11 @@ public class EMRequestReceiver extends BroadcastReceiver {
 
     static final String PREFS_NAME = "EModePreferences";
 
-    static boolean isOn = false;
-
     public EMRequestReceiver() {
     }
 
     private void examModeOn(Context context) {
+
         Log.i("EMODE", "Entering examModeOn");
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         AudioManager audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
@@ -41,7 +43,7 @@ public class EMRequestReceiver extends BroadcastReceiver {
                 e.printStackTrace();
             }
 
-            if (!isOn) {
+            if (!settings.getBoolean("isOn", false)) {
                 Log.i("EMODE", "Entering ison");
                 editor.putInt("originalTimeout", prevTimeout);
             }
@@ -51,7 +53,7 @@ public class EMRequestReceiver extends BroadcastReceiver {
             android.provider.Settings.System.putInt(context.getContentResolver(),
                     android.provider.Settings.System.SCREEN_OFF_TIMEOUT, newTimeout * 1000);
 
-            isOn = true;
+            editor.putBoolean("isOn", true);
 
             editor.commit();
 
@@ -62,10 +64,13 @@ public class EMRequestReceiver extends BroadcastReceiver {
     }
 
     private void examModeOff(Context context) {
-        Log.i("EMODE", "Entering examModeOff");
-        if (!isOn)
-            return;
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+
+        Log.i("EMODE", "Entering examModeOff");
+        if (!settings.getBoolean("isOn", false))
+            return;
+
         AudioManager audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
@@ -74,18 +79,37 @@ public class EMRequestReceiver extends BroadcastReceiver {
         android.provider.Settings.System.putInt(context.getContentResolver(),
                 android.provider.Settings.System.SCREEN_OFF_TIMEOUT, originalTimeout * 1000);
 
-        isOn = false;
         Log.i("EMODE", "Original timeout" + Integer.toString(originalTimeout));
+        editor.putBoolean("isOn", false);
+        editor.commit();
 
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.emode_widget_layoutv2);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
-        if (intent.getBooleanExtra("start", true))
-            examModeOn(context);
-        else
-            examModeOff(context);
+        if (intent.hasExtra("start")) {
+            if (intent.getBooleanExtra("start", true))
+                examModeOn(context);
+            else
+                examModeOff(context);
+        } else {
+            SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+            if (settings.getBoolean("isOn", false)) {
+                examModeOff(context);
+                view.setTextViewText(R.id.emode_v2_text, "Off");
+                appWidgetManager.updateAppWidget(new ComponentName(context.getPackageName(),
+                        EmodeAppWidgetProvider.class.getName()), view);
+
+            } else {
+                examModeOn(context);
+                view.setTextViewText(R.id.emode_v2_text, "On");
+                appWidgetManager.updateAppWidget(new ComponentName(context.getPackageName(),
+                        EmodeAppWidgetProvider.class.getName()), view);
+            }
+        }
 
     }
 }

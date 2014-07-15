@@ -102,7 +102,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_span="2"
-            android:enabled="false"
             android:text="@string/stopemstr" />
 
     </TableRow>

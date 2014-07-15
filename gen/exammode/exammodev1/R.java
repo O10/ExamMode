@@ -39,9 +39,10 @@ public final class R {
         public static final int RelativeLayout1=0x7f080002;
         public static final int disableSoundCheck=0x7f080008;
         public static final int disableSoundTV=0x7f080007;
+        public static final int emode_main_button=0x7f080003;
+        public static final int emode_v2_text=0x7f080005;
         public static final int extScrTimCheck=0x7f08000b;
         public static final int extScrTimTV=0x7f08000a;
-        public static final int imageButton1=0x7f080003;
         public static final int imageView1=0x7f080004;
         public static final int startEMB=0x7f080010;
         public static final int stopEMB=0x7f080012;
@@ -50,7 +51,6 @@ public final class R {
         public static final int tableRow3=0x7f08000c;
         public static final int tableRow4=0x7f08000f;
         public static final int tableRow5=0x7f080011;
-        public static final int textView1=0x7f080005;
         public static final int timeoutET=0x7f08000e;
         public static final int timeoutTV=0x7f08000d;
         public static final int widget_image_view=0x7f080000;

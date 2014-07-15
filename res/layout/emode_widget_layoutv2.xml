@@ -12,7 +12,7 @@
         android:orientation="vertical" >
 
     <Button
-        android:id="@+id/imageButton1"
+        android:id="@+id/emode_main_button"
         android:layout_width="60dp"
         android:layout_height="62dp"
         android:layout_alignParentLeft="true"
@@ -29,13 +29,15 @@
         android:layout_alignParentTop="false"
         android:layout_alignWithParentIfMissing="false"
         android:layout_centerInParent="true"
+        android:layout_marginTop="0dp"
         android:paddingBottom="0dp"
+        android:paddingTop="0dp"
         android:src="@drawable/ic_launcher" />
 
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/emode_v2_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
